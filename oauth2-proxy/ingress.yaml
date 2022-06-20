@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+  name: nginx-service
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-service
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+    secretName: ingress-tls
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /oauth2
+  name: nginx-service-oauth2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: oauth-oauth2-proxy
+            port:
+              number: 80
+        path: /oauth2
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+    secretName: ingress-tls
