@@ -15,7 +15,8 @@ spec:
       paths:
       - backend:
           service:
-            name: nginx-service
+            name: python-server
+#            name: nginx-service
             port:
               number: 80
         path: /

@@ -10,7 +10,7 @@ spec:
     image: python:latest
     imagePullPolicy: IfNotPresent
     ports:
-    - containerPort: 80
+    - containerPort: 8080
       name: http
       protocol: TCP
     volumeMounts:
