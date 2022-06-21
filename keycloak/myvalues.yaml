@@ -19,6 +19,6 @@ service:
 ingress:
   enabled: true
   ingressClassName: nginx
-  hostname: keycloak.default-tenant.app.mlrun-authn.iguazio-cd1.com
+  hostname: keycloak.default-tenant.app.vmdev30.lab.iguazeng.com
   tls: true
   selfSigned: true
