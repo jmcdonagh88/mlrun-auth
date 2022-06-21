@@ -1,0 +1,26 @@
+config:
+  clientID: "oauth2-proxy"
+  clientSecret: "pdCUF9hDOaQKQ2nElLQwPBShKN719Cu3"
+  cookieSecret: "c0xFbHl2SEx6NkhjdmloQzdmWHF1dTBIU3FsWUFKU1U="
+  configFile: |-
+    provider = "keycloak-oidc"
+    redirect_url = "https://oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com/oauth2/callback"
+    oidc_issuer_url = "https://keycloak.default-tenant.app.mlrun-authn.iguazio-cd1.com/realms/mlrun"
+    pass_authorization_header = true
+    pass_access_token = true
+    pass_user_headers = true
+    set_authorization_header = true
+    set_xauthrequest = true
+    cookie_refresh = "1m"
+    cookie_expire = "30m"
+    ssl_insecure_skip_verify = true
+    email_domains = [ "*" ]
+
+ingress:
+  enabled: false
+  className: nginx
+  path: /
+  hosts:
+    - oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"

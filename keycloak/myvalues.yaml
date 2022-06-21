@@ -1,0 +1,24 @@
+postgresql:
+  primary:
+    persistence:
+      existingClaim: keycloak-pvc
+  auth:
+    username: iguazio
+    password: 24tango
+    database: iguazio_keycloak
+
+auth:
+  adminUser: iguazio
+  adminPassword: 24tango
+  managementUser: admin
+  managementPassword: 24tango
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: keycloak.default-tenant.app.mlrun-authn.iguazio-cd1.com
+  tls: true
+  selfSigned: true
