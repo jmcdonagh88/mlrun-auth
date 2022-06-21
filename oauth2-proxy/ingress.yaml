@@ -3,26 +3,27 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
-  name: nginx-service
+    nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+  name: nginx-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+  - host: demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com
     http:
       paths:
       - backend:
           service:
             name: nginx-service
             port:
-              number: 8080
+              number: 80
         path: /
         pathType: ImplementationSpecific
-  tls:
-  - hosts:
-    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
-    secretName: ingress-tls
+#  tls:
+#  - hosts:
+#    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+#    secretName: ingress-tls
 
 ---
 
@@ -31,21 +32,22 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /oauth2
-  name: nginx-service-oauth2
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+  name: nginx-ingress-oauth2
 spec:
   ingressClassName: nginx
   rules:
-  - host: nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+  - host: demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com
     http:
       paths:
       - backend:
           service:
-            name: oauth-oauth2-proxy
+            name: oauth2-oauth2-proxy
             port:
               number: 80
         path: /oauth2
         pathType: ImplementationSpecific
-  tls:
-  - hosts:
-    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
-    secretName: ingress-tls
+#  tls:
+#  - hosts:
+#    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
+#    secretName: ingress-tls

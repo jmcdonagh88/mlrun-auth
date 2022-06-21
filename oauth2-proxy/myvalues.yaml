@@ -1,11 +1,12 @@
 config:
   clientID: "oauth2-proxy"
-  clientSecret: "pdCUF9hDOaQKQ2nElLQwPBShKN719Cu3"
+  clientSecret: "f58Dt1AICqr3WzjDlrLCXFWEyXn9nmwN"
   cookieSecret: "c0xFbHl2SEx6NkhjdmloQzdmWHF1dTBIU3FsWUFKU1U="
   configFile: |-
     provider = "keycloak-oidc"
-    redirect_url = "https://oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com/oauth2/callback"
-    oidc_issuer_url = "https://keycloak.default-tenant.app.mlrun-authn.iguazio-cd1.com/realms/mlrun"
+    redirect_url = "http://demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/callback"
+    # redirect_url = "http://oauth.keycloak.svc.cluster.local/oauth2/callback"
+    oidc_issuer_url = "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun"
     pass_authorization_header = true
     pass_access_token = true
     pass_user_headers = true
@@ -13,6 +14,7 @@ config:
     set_xauthrequest = true
     cookie_refresh = "1m"
     cookie_expire = "30m"
+    cookie_secure = false
     ssl_insecure_skip_verify = true
     email_domains = [ "*" ]
 
@@ -24,3 +26,18 @@ ingress:
     - oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com
   annotations:
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+
+redis:
+  enabled: true
+  global:
+    redis:
+      password: 24tango
+  architecture: standalone
+  master:
+    persistence:
+      enabled: false
+
+sessionStorage:
+  type: redis
+  redis:
+    password: 24tango
