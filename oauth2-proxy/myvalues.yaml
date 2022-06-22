@@ -5,7 +5,6 @@ config:
   configFile: |-
     provider = "keycloak-oidc"
     redirect_url = "http://demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/callback"
-    # redirect_url = "http://oauth.keycloak.svc.cluster.local/oauth2/callback"
     oidc_issuer_url = "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun"
     pass_authorization_header = true
     pass_access_token = true
@@ -17,15 +16,10 @@ config:
     cookie_secure = false
     ssl_insecure_skip_verify = true
     email_domains = [ "*" ]
+    skip_jwt_bearer_tokens = true
 
 ingress:
   enabled: false
-  className: nginx
-  path: /
-  hosts:
-    - oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
 
 redis:
   enabled: true
