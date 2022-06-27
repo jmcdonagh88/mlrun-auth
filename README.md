@@ -27,10 +27,25 @@
 1. Create a realm - `MLRun`, add roles and users as necessary.
 2. Configure an `oauth` client according to the instructions here - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider#keycloak-oidc-auth-provider
 
+### Retrieving token from Keycloak
+
+Once Keycloak is configured and there's a realm available, it's possible to extract a user-token using the client-id of the oauth2 proxy. The REST call to use is this:
+
+```sh
+curl \
+    -d "client_id=<client ID>" -d "client_secret=<client secret>" \
+    -d "username=<username>" -d "password=<password>" \
+    -d "grant_type=password" \
+    https://<keycloak host>/realms/<realm name>/protocol/openid-connect/token | jq -r '.access_token'
+```
+
+
+
 #### User attributes
 
 Any user in Keycloak can have additional attributes associated with it, which can be mapped to the auth JWT passed back to the auth client. This is done through setting fields in the 
 attributes section of the user. For example, you can set an attribute `gid` and set it to any value.
+
 Then in the client mappings, add mappings of type `User Attribute` and select the attribute you want to pass and the name of the JWT claim to assign it to. For example, the same `gid` can
 be mapped to a `gid` token claim and this will be available in the auth header received by the app.
 
@@ -43,9 +58,7 @@ be mapped to a `gid` token claim and this will be available in the auth header r
    helm -n keycloak install oauth2 -f myvalues.yaml oauth2-proxy/oauth2-proxy
    ```
 
-
 ## NGINX configuration and ingress annotations
-
 
 1. The auth headers returned from keycloak seem to be pretty big, which need configuration tweaks:
    1. oauth2-proxy have to be deployed with redis as session storage (it's already reflected in the values)
