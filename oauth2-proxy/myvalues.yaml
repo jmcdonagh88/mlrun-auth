@@ -1,12 +1,12 @@
 config:
   clientID: "oauth2-proxy"
-  clientSecret: "f58Dt1AICqr3WzjDlrLCXFWEyXn9nmwN"
+  clientSecret: "wfH7x6o8UdcOv1TguDHjXO0rBoes5ngl"
   cookieSecret: "c0xFbHl2SEx6NkhjdmloQzdmWHF1dTBIU3FsWUFKU1U="
   configFile: |-
     provider = "keycloak-oidc"
-    redirect_url = "http://demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/callback"
-    # redirect_url = "http://oauth.keycloak.svc.cluster.local/oauth2/callback"
-    oidc_issuer_url = "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun"
+    redirect_url = "http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/callback"
+    oidc_issuer_url = "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/basic" 
+    # "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun"
     pass_authorization_header = true
     pass_access_token = true
     pass_user_headers = true
@@ -17,15 +17,12 @@ config:
     cookie_secure = false
     ssl_insecure_skip_verify = true
     email_domains = [ "*" ]
+    skip_jwt_bearer_tokens = true
+    whitelist_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
+    cookie_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
 
 ingress:
   enabled: false
-  className: nginx
-  path: /
-  hosts:
-    - oauth2-proxy.default-tenant.app.mlrun-authn.iguazio-cd1.com
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
 
 redis:
   enabled: true
