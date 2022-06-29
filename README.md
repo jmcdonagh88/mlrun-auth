@@ -28,6 +28,8 @@
 2. Configure an `oauth` client according to the instructions here - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider#keycloak-oidc-auth-provider
 3. The `Valid redirect URIs` value should only include the auth-proxy URL. For example: `http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/*`
 
+/opt/bitnami/keycloak/data
+
 ### Retrieving token from Keycloak
 
 Once Keycloak is configured and there's a realm available, it's possible to extract a user-token using the client-id of the oauth2 proxy. The REST call to use is this:
@@ -47,6 +49,13 @@ attributes section of the user. For example, you can set an attribute `gid` and 
 
 Then in the client mappings, add mappings of type `User Attribute` and select the attribute you want to pass and the name of the JWT claim to assign it to. For example, the same `gid` can
 be mapped to a `gid` token claim and this will be available in the auth header received by the app.
+
+### User management UI
+
+To allow a user to have user-management capabilities on a realm, the following is needed:
+
+1. The user must have the `manage-users` role from the `realm-management` client for the specific realm. This can be done by modifying the Role mappings for that user
+2. To manage users, go to `https://<keycloak host>/admin/{realm-name}/console` and login with the user that you granted permissions to
 
 ## Install oauth2-proxy
 
