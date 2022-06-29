@@ -1,0 +1,40 @@
+postgresql:
+  primary:
+    persistence:
+      existingClaim: keycloak-pvc
+  auth:
+    username: iguazio
+    password: 24tango
+    database: iguazio_keycloak
+
+auth:
+  adminUser: iguazio
+  adminPassword: 24tango
+  managementUser: admin
+  managementPassword: 24tango
+
+extraEnvVars:
+  - name: KEYCLOAK_EXTRA_ARGS
+    value: "-Dkeycloak.import=/realm_config/basic_export.json"
+
+extraVolumes:
+  - name: realm
+    configMap:
+      name: basic-realm-cm
+
+extraVolumeMounts:
+  - name: realm
+    mountPath: /realm_config
+    readOnly: true
+
+service:
+  type: ClusterIP
+
+# extraStartupArgs: "--import-realm"
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: keycloak-test.default-tenant.app.vmdev30.lab.iguazeng.com
+  tls: true
+  selfSigned: true
