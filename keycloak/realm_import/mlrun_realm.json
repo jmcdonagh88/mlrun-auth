@@ -1,8 +1,8 @@
 {
   "id" : "mlrun",
-  "realm" : "mrun",
+  "realm" : "mlrun",
   "displayName" : "MLRun",
-  "displayNameHtml" : "<h1>MLRun login screen</h2>",
+  "displayNameHtml" : "MLRun login screen",
   "defaultSignatureAlgorithm" : "RS256",
   "revokeRefreshToken" : false,
   "refreshTokenMaxReuse" : 0,
