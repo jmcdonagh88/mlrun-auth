@@ -13,6 +13,20 @@ auth:
   managementUser: admin
   managementPassword: 24tango
 
+extraEnvVars:
+  - name: KEYCLOAK_EXTRA_ARGS
+    value: "-Dkeycloak.import=/realm_config/mlrun_realm.json"
+
+extraVolumes:
+  - name: realm
+    configMap:
+      name: mlrun-realm
+
+extraVolumeMounts:
+  - name: realm
+    mountPath: /realm_config
+    readOnly: true
+
 service:
   type: ClusterIP
 

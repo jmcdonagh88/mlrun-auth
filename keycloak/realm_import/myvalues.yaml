@@ -15,12 +15,12 @@ auth:
 
 extraEnvVars:
   - name: KEYCLOAK_EXTRA_ARGS
-    value: "-Dkeycloak.import=/realm_config/basic_export.json"
+    value: "-Dkeycloak.import=/realm_config/mlrun_realm.json"
 
 extraVolumes:
   - name: realm
     configMap:
-      name: basic-realm-cm
+      name: mlrun-realm
 
 extraVolumeMounts:
   - name: realm
@@ -29,8 +29,6 @@ extraVolumeMounts:
 
 service:
   type: ClusterIP
-
-# extraStartupArgs: "--import-realm"
 
 ingress:
   enabled: true

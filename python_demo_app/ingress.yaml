@@ -7,11 +7,11 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: "http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/start?rd=$scheme://$http_host$request_uri"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email,authorization
-  name: gc-auth-ingress
+  name: mlrun-test-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: kc-auth.default-tenant.app.vmdev30.lab.iguazeng.com
+  - host: mlrun-test.default-tenant.app.vmdev30.lab.iguazeng.com
     http:
       paths:
       - backend:
@@ -33,11 +33,11 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: "http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/start?rd=$scheme://$http_host$request_uri"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email,authorization
-  name: gc-auth-ingress-2
+  name: nuclio-test-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: another-kc-auth.default-tenant.app.vmdev30.lab.iguazeng.com
+  - host: nuclio-test.default-tenant.app.vmdev30.lab.iguazeng.com
     http:
       paths:
       - backend:
@@ -48,25 +48,3 @@ spec:
         path: /
         pathType: ImplementationSpecific
 
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /oauth2
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
-  name: gc-auth-ingress-oauth2
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: oauth2-oauth2-proxy
-            port:
-              number: 80
-        path: /oauth2
-        pathType: ImplementationSpecific

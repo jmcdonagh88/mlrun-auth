@@ -2,44 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=$escaped_request_uri"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
-    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email,authorization
-  name: nginx-ingress
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: python-server
-#            name: nginx-service
-            port:
-              number: 80
-        path: /
-        pathType: ImplementationSpecific
-#  tls:
-#  - hosts:
-#    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
-#    secretName: ingress-tls
-
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /oauth2
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
-  name: nginx-ingress-oauth2
+  name: oauth2-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: demo-nginx.default-tenant.app.vmdev30.lab.iguazeng.com
+  - host: auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com
     http:
       paths:
       - backend:
@@ -49,7 +18,3 @@ spec:
               number: 80
         path: /oauth2
         pathType: ImplementationSpecific
-#  tls:
-#  - hosts:
-#    - nginx-service.default-tenant.app.mlrun-authn.iguazio-cd1.com
-#    secretName: ingress-tls

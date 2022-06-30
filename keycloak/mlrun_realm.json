@@ -83,6 +83,7 @@
   "users" : [ {
     "createdTimestamp" : 1656507742016,
     "username" : "admin",
+    "email": "dummy@email.com",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
