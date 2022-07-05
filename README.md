@@ -7,9 +7,9 @@
 2. Create `keycloak` ns on k8s, and the pv/pvc needed for the keycloak db (files are in the `keycloak` folder):
 
    ```sh
-   kubectl create namespace keycloak
-   kubectl -n keycloak apply -f pv.yaml
-   kubectl -n keycloak apply -f pvc.yaml
+   kubectl create namespace mlrun
+   kubectl -n mlrun apply -f pv.yaml
+   kubectl -n mlrun apply -f pvc.yaml
    ```
 
 3. In the `myvalues.yaml` file, set `ingress.hostname` to a proper host name for the cluster selected.
@@ -17,7 +17,7 @@
 
    ```sh
    helm repo add bitnami https://charts.bitnami.com/bitnami
-   helm -n keycloak install keycloak -f myvalues.yaml bitnami/keycloak
+   helm -n mlrun install keycloak -f myvalues.yaml bitnami/keycloak
    ```
 
    Wait for the `keycloak-0` pod to be ready.
@@ -63,7 +63,7 @@ To allow a user to have user-management capabilities on a realm, the following i
 
    ```sh
    helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
-   helm -n keycloak install oauth2 -f myvalues.yaml oauth2-proxy/oauth2-proxy
+   helm -n mlrun install oauth2 -f myvalues.yaml oauth2-proxy/oauth2-proxy
    ```
 
 ### Configuring Helm values (and their meaning)
@@ -98,3 +98,14 @@ The values included in the `myvalues.yaml` file contain the following important 
 
    The important one is the `authorization` field, which will pass the authorization header containing the JWT to the app. The other fields are nice-to-haves which can identify the user/email 
    without having to dig into the JWT.
+
+## Running Python demo app
+
+In the `python_demo_app` directory, run the following:
+
+```sh
+kubectl -n mlrun create cm python-code --from-file=web_server.py
+kubectl -n mlrun apply -f pod.yaml
+kubectl -n mlrun apply -f service.yaml
+kubectl -n mlrun apply -f ingress.yaml
+```
