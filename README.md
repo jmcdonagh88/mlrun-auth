@@ -4,7 +4,7 @@
 
 1. Create a folder on the node to host the data that the keycloak DB will use - `/home/iguazio/keycloak_pvc` (path is in `pv.yaml`)
    1. The folder needs to have permissions 0777 (for now) - keycloak and the db are running with security_context etc., so this is just to avoid setting permissions properly.
-2. Create `keycloak` ns on k8s, and the pv/pvc needed for the keycloak db (files are in the `keycloak` folder):
+2. Create `mlrun` ns on k8s, and the pv/pvc needed for the keycloak db (files are in the `keycloak` folder):
 
    ```sh
    kubectl create namespace mlrun
@@ -12,8 +12,15 @@
    kubectl -n mlrun apply -f pvc.yaml
    ```
 
-3. In the `myvalues.yaml` file, set `ingress.hostname` to a proper host name for the cluster selected.
-4. On the data node, run the Keycloak Helm chart:
+3. Create a configmap with the values for the MLRun realm. The Keycloak Helm chart is configured to automatically import the configuration in this config-map and build
+   the MLRun realm automatically from it:
+
+   ```sh
+   kubectl -n mlrun create configmap mlrun-realm --from-file=mlrun_realm.json
+   ```
+
+4. In the `myvalues.yaml` file, set `ingress.hostname` to a proper host name for the cluster selected.
+5. On the data node, run the Keycloak Helm chart:
 
    ```sh
    helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -24,11 +31,13 @@
 
 ### Configure Keycloak realm
 
+> **Note:**
+> If you configured the configmap with the realm details in it as described above, then you already have an MLRun realm created in Keycloak, with a single `admin` user
+> configured. These steps are only needed to add more realms or configure additional clients.
+
 1. Create a realm - `MLRun`, add roles and users as necessary.
 2. Configure an `oauth` client according to the instructions here - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider#keycloak-oidc-auth-provider
 3. The `Valid redirect URIs` value should only include the auth-proxy URL. For example: `http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/*`
-
-/opt/bitnami/keycloak/data
 
 ### Retrieving token from Keycloak
 
