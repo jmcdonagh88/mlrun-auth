@@ -16,6 +16,7 @@ config:
     cookie_refresh = "1m"
     cookie_expire = "30m"
     email_domains = [ "*" ]
+    force_code_challenge_method = "S256"
     # These should be changed if working with real certs and https.
     cookie_secure = false
     ssl_insecure_skip_verify = true
