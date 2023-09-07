@@ -15,8 +15,8 @@ auth:
 
 extraEnvVars:
   - name: KEYCLOAK_EXTRA_ARGS
-    value: "-Dkeycloak.import=/realm_config/mlrun_realm.json"
-
+    value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/realm_config/mlrun_realm.json"
+    
 extraVolumes:
   - name: realm
     configMap:
@@ -34,5 +34,5 @@ ingress:
   enabled: true
   ingressClassName: nginx
   hostname: keycloak.default-tenant.app.vmdev30.lab.iguazeng.com
-  tls: true
+  tls: false
   selfSigned: true

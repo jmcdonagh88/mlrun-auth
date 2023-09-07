@@ -5,7 +5,7 @@ config:
   configFile: |-
     provider = "keycloak-oidc"
     redirect_url = "http://auth-proxy.default-tenant.app.vmdev30.lab.iguazeng.com/oauth2/callback"
-    oidc_issuer_url = "https://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun" 
+    oidc_issuer_url = "http://keycloak.default-tenant.app.vmdev30.lab.iguazeng.com/realms/mlrun"
     whitelist_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
     cookie_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
     pass_authorization_header = true
@@ -17,6 +17,8 @@ config:
     cookie_expire = "30m"
     email_domains = [ "*" ]
     force_code_challenge_method = "S256"
+    scope = "openid"
+    insecure_oidc_allow_unverified_email = true
     # These should be changed if working with real certs and https.
     cookie_secure = false
     ssl_insecure_skip_verify = true
