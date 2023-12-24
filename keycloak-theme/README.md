@@ -16,7 +16,7 @@ I've included here an example of a minimal theme which modifies the login screen
 * `css` and `img` folders which contain, surprisingly enough, css and image files. A single file is contained in the `css` folder and it overrides some styles that the KC theme is defining, making them look differently.
 
 The resulting login screen when using the example theme included here looks like this:
-![Keycloak login](./keycloak-login.png)
+<img src="./keycloak-login.png" alt="Keycloak login" style="border: 2px solid black">
 
 ## Deploy a theme to Keycloak pod
 
