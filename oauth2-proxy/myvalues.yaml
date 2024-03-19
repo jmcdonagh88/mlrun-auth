@@ -9,19 +9,21 @@ config:
     whitelist_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
     cookie_domains = ".default-tenant.app.vmdev30.lab.iguazeng.com"
     pass_authorization_header = true
+    set_authorization_header = true
     pass_access_token = true
     pass_user_headers = true
-    set_authorization_header = true
     set_xauthrequest = true
     cookie_refresh = "1m"
-    cookie_expire = "30m"
+    cookie_expire = "12h"
     email_domains = [ "*" ]
     force_code_challenge_method = "S256"
     scope = "openid"
     insecure_oidc_allow_unverified_email = true
+    silence_ping_logging = true
     # These should be changed if working with real certs and https.
     cookie_secure = false
     ssl_insecure_skip_verify = true
+    ssl_upstream_insecure_skip_verify = true
     skip_jwt_bearer_tokens = true
 
 ingress:
